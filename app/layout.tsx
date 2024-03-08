@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const basisGrotesquePro = localFont({
+  src: './BasisGrotesquePro-Regular.woff2',
+  display: 'swap'
+});
 
 export const metadata: Metadata = {
   title: {
@@ -19,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={basisGrotesquePro.className}>{children}</body>
     </html>
   );
 }
