@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import PageTitle from "@/app/ui/page-title";
 
 export const metadata: Metadata = {
   title: 'Create new password',
@@ -6,6 +7,6 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <p>Create new password page goes here</p>
+    <PageTitle>Create new Password?</PageTitle>
   );
 }
