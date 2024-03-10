@@ -2,7 +2,7 @@ import {clsx} from "clsx";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  buttonType?: 'primary' | 'secondary' | undefined;
+  buttonType?: 'primary' | 'secondary';
 }
 
 export default function Button({
