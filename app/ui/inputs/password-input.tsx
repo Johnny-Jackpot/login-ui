@@ -12,6 +12,7 @@ export default function PasswordInput({
 
   return (
     <Input
+      minLength={8}
       placeholder={placeholder}
       type={visible ? 'text' : 'password'}
       iconAfter={
