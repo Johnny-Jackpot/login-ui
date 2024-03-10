@@ -4,6 +4,6 @@ export default function PageTitle({
   children: React.ReactNode;
 }>) {
   return (
-    <p className='text-center font-bold text-3xl leading-[38px]'>{children}</p>
+    <p className='text-center font-bold text-3xl leading-[38px] text-heading-text'>{children}</p>
   );
 }

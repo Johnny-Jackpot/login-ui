@@ -10,7 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         'primary': '#316FEA',
-        'body-grey': '#1A1919',
+        'secondary': '#D3D8DC',
+        'heading-text': '#1A1919',
+        'main-text': '#060E1E',
       },
     },
   },
