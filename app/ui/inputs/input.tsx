@@ -1,6 +1,6 @@
 import {clsx} from "clsx";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   iconBefore?: React.ReactNode;
   iconAfter?: React.ReactNode;
 }

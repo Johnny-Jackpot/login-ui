@@ -26,10 +26,9 @@ export default function ButtonSocial({social, ...rest}: ButtonProps) {
           <Image
             className='mx-2.5'
             src={config.src}
-            alt="Qencode Logo"
+            alt={`${social} icon`}
             width={config.width}
             height={config?.height || config.width}
-            priority
           />
           <span className='text-sm font-medium'>{config.title}</span>
         </span>
