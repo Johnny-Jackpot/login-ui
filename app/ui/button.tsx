@@ -14,7 +14,7 @@ export default function Button({
   const className = clsx(
     `w-full h-12 rounded-lg flex justify-center items-center box-border text-base leading-[21px] font-medium`,
     buttonType === 'primary' && ['bg-primary', 'text-white'],
-    buttonType === 'secondary' && ['border', 'border-[#D3D8DC]']
+    buttonType === 'secondary' && ['border', 'border-secondary']
   );
 
   return (

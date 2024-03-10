@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${basisGrotesquePro.className} text-body-grey`}>{children}</body>
+      <body className={`${basisGrotesquePro.className} text-main-text`}>{children}</body>
     </html>
   );
 }
