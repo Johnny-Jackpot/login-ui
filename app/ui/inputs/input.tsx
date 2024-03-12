@@ -3,7 +3,8 @@ import {clsx} from "clsx";
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   iconBefore?: React.ReactNode;
   iconAfter?: React.ReactNode;
-  wrapperClassName?: string,
+  wrapperClassName?: string;
+  errors?: string[];
 }
 
 export default function Input({
@@ -11,20 +12,33 @@ export default function Input({
   iconBefore,
   iconAfter,
   wrapperClassName,
+  errors = [],
   ...rest
 }: InputProps) {
   return (
-    <div className={`rounded-lg h-12 box-border border border-secondary flex items-center px-3.5 ${wrapperClassName}`}>
-      {iconBefore}
-      <input
-        className={clsx('w-full text-[15px] leading-5 outline-none', {
-          'ml-3.5': iconBefore,
-          'mr-3.5': iconAfter
-        })}
-        type={type}
-        {...rest}
-      />
-      {iconAfter}
+    <div className={wrapperClassName}>
+      <div
+        className={clsx(`rounded-lg h-12 box-border border border-secondary flex items-center px-3.5`, {
+          'border-error': errors?.length
+        })}>
+        {iconBefore}
+        <input
+          className={clsx('w-full text-[15px] leading-5 outline-none', {
+            'ml-3.5': iconBefore,
+            'mr-3.5': iconAfter
+          })}
+          type={type}
+          {...rest}
+        />
+        {iconAfter}
+      </div>
+      {
+        errors.map((error) => (
+          <span className='text-sm text-error' key={error}>
+            {error}
+          </span>
+        ))
+      }
     </div>
   );
 }
