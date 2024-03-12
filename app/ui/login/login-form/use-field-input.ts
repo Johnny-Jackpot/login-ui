@@ -1,20 +1,22 @@
 'use client';
 
-import {FormEvent, FormEventHandler, useState} from "react";
-import {SafeParseReturnType, ZodObject, ZodType} from "zod";
+import {Dispatch, FormEvent, FormEventHandler, SetStateAction, useState} from "react";
+import {SafeParseReturnType, ZodObject, ZodType, z} from "zod";
 import {debounce} from "lodash";
 
 export type OnInputHandled = (parsedInputs: SafeParseReturnType<{}, {}>) => void;
 
 export default function useFieldInput(
-  ValidationSchema: ZodObject<{input: ZodType}>,
+  ValidationSchema: z.ZodObject<{input: ZodType}>,
   afterOnInputCb?: OnInputHandled
 ): [
   string,
   string[],
+  Dispatch<SetStateAction<string[]>>,
   FormEventHandler<HTMLInputElement>
 ] {
-  const [errors, setErrors] = useState([]);
+  const initialState: string[] = [];
+  const [errors, setErrors] = useState(initialState);
   const [val, setVal] = useState('');
 
   const onInput = debounce((event: FormEvent<HTMLInputElement>) => {
@@ -27,5 +29,5 @@ export default function useFieldInput(
     afterOnInputCb && afterOnInputCb(parsedEmail);
   }, 500);
 
-  return [val, errors, onInput];
+  return [val, errors, setErrors, onInput];
 }

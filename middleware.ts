@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import {getUserData} from "@/app/lib/auth";
 
-export function middleware(request: NextRequest) {
-  const isLoggedIn = !!getUserData();
+export async function middleware(request: NextRequest) {
+  const userData = await getUserData();
+  const isLoggedIn = !!userData;//TODO check and validate token expire
   const isOnLoginPages = request.nextUrl.pathname.startsWith('/login');
   if (isLoggedIn && isOnLoginPages) {
     return NextResponse.redirect(new URL('/', request.url));
