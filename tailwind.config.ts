@@ -13,7 +13,11 @@ const config: Config = {
         'secondary': '#D3D8DC',
         'heading-text': '#1A1919',
         'main-text': '#060E1E',
+        'error': '#EF4444',
       },
+      borderColor: {
+        'error': '#EF4444',
+      }
     },
   },
   plugins: [],
