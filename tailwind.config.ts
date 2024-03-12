@@ -15,9 +15,6 @@ const config: Config = {
         'main-text': '#060E1E',
         'error': '#EF4444',
       },
-      borderColor: {
-        'error': '#EF4444',
-      }
     },
   },
   plugins: [],

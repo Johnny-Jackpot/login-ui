@@ -18,8 +18,9 @@ export default function Input({
   return (
     <div className={wrapperClassName}>
       <div
-        className={clsx(`rounded-lg h-12 box-border border border-secondary flex items-center px-3.5`, {
-          'border-error': errors?.length
+        className={clsx(`rounded-lg h-12 box-border border flex items-center px-3.5`, {
+          'border-secondary': !errors?.length,
+          'border-error': errors?.length,
         })}>
         {iconBefore}
         <input
