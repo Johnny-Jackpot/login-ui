@@ -38,10 +38,9 @@ export default function LoginForm() {
   const initialState = { generalError: null, errors: {} };
   const [state, dispatch] = useFormState(loginAction, initialState);
   useEffect(() => {
-    const {errors: {email, password} = {}} = state;
-    email && setEmailErrors(email);
-    password && setPasswordErrors(password);
-  }, [state, setEmailErrors, setPasswordErrors]);
+    setEmailErrors(state?.errors?.email || []);
+    setPasswordErrors(state?.errors?.password || []);
+  }, [state]);
 
   return (
     <form action={dispatch}>
@@ -51,8 +50,8 @@ export default function LoginForm() {
       </div>
       <Divider className='my-[30px]'>or</Divider>
       {
-        state.generalError && (
-          <GeneralError>{state.generalError}</GeneralError>
+        state?.generalError && (
+          <GeneralError>{state?.generalError}</GeneralError>
         )
       }
       <Input
