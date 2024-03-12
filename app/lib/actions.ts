@@ -5,6 +5,7 @@ import {AxiosError} from "axios";
 import {login} from "@/app/lib/qencode-api";
 import {LoginFormSchema} from "@/app/lib/validation";
 import {storeCredentials} from "@/app/lib/auth";
+import {revalidatePath} from "next/cache";
 
 export type LoginFormState = {
   errors?: {
@@ -38,7 +39,6 @@ export async function loginAction(
     const {email, password} = parsedData.data;
     const data = await login(email, password);
     await storeCredentials(data);
-    redirect('/');
   } catch (e) {
     const generalErrorResponseData = {
       generalError: 'Something went wrong. Could not perform login.',
@@ -67,4 +67,7 @@ export async function loginAction(
       errors: errorDetails.reduce((prev, {field_name, error}) => ({...prev, [field_name]: [error]}), {}),
     };
   }
+
+  revalidatePath('/');
+  redirect('/');
 }
