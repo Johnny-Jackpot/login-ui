@@ -1,7 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useFormState, useFormStatus} from 'react-dom';
 import {z} from 'zod';
 import {clsx} from "clsx";
 import Button from "@/app/ui/button";
@@ -11,10 +12,17 @@ import Input from "@/app/ui/inputs/input";
 import PasswordInput from "@/app/ui/inputs/password-input";
 import {email as emailRule, password as passwordRule} from "@/app/lib/validation";
 import useFieldInput from "@/app/ui/login/login-form/use-field-input";
+import {loginAction} from "@/app/lib/actions";
+import GeneralError from "@/app/ui/inputs/general-error";
 
 export default function LoginForm() {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [email, emailErrors, onEmailInput] = useFieldInput(
+  const [
+    email,
+    emailErrors,
+    setEmailErrors,
+    onEmailInput
+  ] = useFieldInput(
     z.object({input: emailRule}),
     (parsedEmail) => {
       setShowPasswordInput(parsedEmail.success);
@@ -22,16 +30,31 @@ export default function LoginForm() {
   const [
     password,
     passwordErrors,
+    setPasswordErrors,
     onPasswordInput
   ] = useFieldInput(z.object({input: passwordRule}));
 
+  const { pending } = useFormStatus();
+  const initialState = { generalError: null, errors: {} };
+  const [state, dispatch] = useFormState(loginAction, initialState);
+  useEffect(() => {
+    const {errors: {email, password} = {}} = state;
+    email && setEmailErrors(email);
+    password && setPasswordErrors(password);
+  }, [state, setEmailErrors, setPasswordErrors]);
+
   return (
-    <form action=''>
+    <form action={dispatch}>
       <div className='grid grid-cols-2 gap-x-4'>
         <ButtonSocial social='google'/>
         <ButtonSocial social='github'/>
       </div>
       <Divider className='my-[30px]'>or</Divider>
+      {
+        state.generalError && (
+          <GeneralError>{state.generalError}</GeneralError>
+        )
+      }
       <Input
         onInput={onEmailInput}
         name='email'
@@ -49,7 +72,7 @@ export default function LoginForm() {
         className='mb-5'
         buttonType='primary'
         type='submit'
-        disabled={!email || !password || !!emailErrors.length || !!passwordErrors.length}
+        disabled={pending || !email || !password || !!emailErrors.length || !!passwordErrors.length}
       >
         Log in to Qencode
       </Button>

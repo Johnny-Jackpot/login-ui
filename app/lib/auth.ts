@@ -11,7 +11,7 @@ export async function storeCredentials(sessionData: Object) {
   cookies().set('sessionId', sessionId);
 }
 
-export function getUserData() {
+export async function getUserData() {
   const sessionId = cookies().get('sessionId')?.value;
   return sessionId ? sessions.get(sessionId) : null;
 }

@@ -1,4 +1,5 @@
 import {clsx} from "clsx";
+import InputError from "@/app/ui/inputs/input-error";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   iconBefore?: React.ReactNode;
@@ -35,9 +36,7 @@ export default function Input({
       </div>
       {
         errors.map((error) => (
-          <span className='text-sm text-error' key={error}>
-            {error}
-          </span>
+          <InputError key={error}>{error}</InputError>
         ))
       }
     </div>
