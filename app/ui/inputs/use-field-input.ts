@@ -1,13 +1,13 @@
 'use client';
 
 import {Dispatch, FormEvent, FormEventHandler, SetStateAction, useState} from "react";
-import {SafeParseReturnType, ZodObject, ZodType, z} from "zod";
+import {SafeParseReturnType, ZodObject, ZodType} from "zod";
 import {debounce} from "lodash";
 
 export type OnInputHandled = (parsedInputs: SafeParseReturnType<{}, {}>) => void;
 
 export default function useFieldInput(
-  ValidationSchema: z.ZodObject<{input: ZodType}>,
+  ValidationSchema: ZodObject<{input: ZodType}>,
   afterOnInputCb?: OnInputHandled
 ): [
   string,

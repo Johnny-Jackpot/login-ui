@@ -11,7 +11,7 @@ import Divider from "@/app/ui/divider";
 import Input from "@/app/ui/inputs/input";
 import PasswordInput from "@/app/ui/inputs/password-input";
 import {email as emailRule, password as passwordRule} from "@/app/lib/validation";
-import useFieldInput from "@/app/ui/login/login-form/use-field-input";
+import useFieldInput from "@/app/ui/inputs/use-field-input";
 import {loginAction} from "@/app/lib/actions";
 import GeneralError from "@/app/ui/inputs/general-error";
 
