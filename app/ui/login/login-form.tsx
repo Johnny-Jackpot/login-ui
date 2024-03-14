@@ -34,8 +34,8 @@ export default function LoginForm() {
     onPasswordInput
   ] = useFieldInput(z.object({input: passwordRule}));
 
-  const { pending } = useFormStatus();
-  const initialState = { generalError: null, errors: {} };
+  const {pending} = useFormStatus();
+  const initialState = {generalError: null, errors: {}};
   const [state, dispatch] = useFormState(loginAction, initialState);
   useEffect(() => {
     setEmailErrors(state?.errors?.email || []);
