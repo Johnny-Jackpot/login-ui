@@ -14,3 +14,7 @@ export async function getData(key: string): Promise<any|null> {
   const json = cookies().get(key)?.value;
   return json ? JSON.parse(json) : null;
 }
+
+export async function removeData(key: string) {
+  cookies().delete(key);
+}

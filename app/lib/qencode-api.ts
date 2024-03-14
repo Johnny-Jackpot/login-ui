@@ -7,7 +7,7 @@ export async function login(email: string, password: string) {
   'use server';
 
   if (await needUseMock()) {
-    return getMockAccessTokenData();
+    return await getMockAccessTokenData();
   }
 
   const {data} = await axios.post(`${baseUrl}auth/login`, {email, password});

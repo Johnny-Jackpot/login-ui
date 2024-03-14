@@ -1,6 +1,6 @@
 'use server';
 
-import {saveData, getData} from "@/app/lib/storage";
+import {saveData, getData, removeData} from "@/app/lib/storage";
 import {Credentials} from "@/app/lib/types";
 import {refreshToken} from "@/app/lib/qencode-api";
 
@@ -24,6 +24,7 @@ export async function getUserData(): Promise<Credentials|null> {
 
   const refreshTokenExpireDate = new Date(Math.floor(refresh_token_expire * 1000));
   if (refreshTokenExpireDate.getTime() < now.getTime()) {
+    await removeData('accessTokenData');
     return null;
   }
 
