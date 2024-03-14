@@ -1,6 +1,6 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import {cookies} from 'next/headers';
 import {Credentials} from "@/app/lib/types";
 
 export async function useMock(val: boolean) {
@@ -12,7 +12,7 @@ export async function needUseMock() {
   return value === '1';
 }
 
-export async function getMockAccessTokenData(): Promise<Credentials> {
+export async function getMockAccessTokenData(): Promise<{ data: Credentials }> {
   const now = new Date();
   const tokenExpire = new Date();
   tokenExpire.setMinutes(tokenExpire.getMinutes() + 5);
@@ -20,16 +20,18 @@ export async function getMockAccessTokenData(): Promise<Credentials> {
   refreshTokenExpire.setMinutes(refreshTokenExpire.getMinutes() + 10);
 
   return {
-    "error": 0,
-    "detail": [
-      null
-    ],
-    "timestamp": now.getTime() / 1000,
-    "access_token": "access_token",
-    "refresh_token": "refresh_token",
-    "token_expire": tokenExpire.getTime() / 1000,
-    "refresh_token_expire": refreshTokenExpire.getTime() / 1000,
-  }
+    data: {
+      "error": 0,
+      "detail": [
+        null
+      ],
+      "timestamp": now.getTime() / 1000,
+      "access_token": "access_token",
+      "refresh_token": "refresh_token",
+      "token_expire": tokenExpire.getTime() / 1000,
+      "refresh_token_expire": refreshTokenExpire.getTime() / 1000,
+    }
+  };
 }
 
 
