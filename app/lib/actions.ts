@@ -6,19 +6,7 @@ import {login} from "@/app/lib/qencode-api";
 import {LoginFormSchema} from "@/app/lib/validation";
 import {storeCredentials} from "@/app/lib/auth";
 import {revalidatePath} from "next/cache";
-
-export type LoginFormState = {
-  errors?: {
-    email?: string[];
-    password?: string[];
-  };
-  generalError?: string | null;
-};
-
-type ErrorDetail = {
-  field_name: string;
-  error: string;
-}
+import {ErrorDetail, LoginFormState} from "@/app/lib/types";
 
 export async function loginAction(
   prevState: LoginFormState,
@@ -37,7 +25,7 @@ export async function loginAction(
     }
 
     const {email, password} = parsedData.data;
-    const data = await login(email, password);
+    const {data} = await login(email, password);
     await storeCredentials(data);
   } catch (e) {
     const generalErrorResponseData = {

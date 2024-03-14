@@ -1,18 +1,39 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import { v4 as uuidv4 } from 'uuid';
+import {saveData, getData} from "@/app/lib/storage";
+import {Credentials} from "@/app/lib/types";
+import {refreshToken} from "@/app/lib/qencode-api";
 
-const sessions: Map<string, Object> = new Map();
-
-export async function storeCredentials(sessionData: Object) {
-  const sessionId = uuidv4();
-  sessions.set(sessionId, sessionData);
-  cookies().set('sessionId', sessionId);
+export async function storeCredentials(data: Credentials) {
+  await saveData('accessTokenData', data);
 }
 
-export async function getUserData() {
-  const sessionId = cookies().get('sessionId')?.value;
-  return sessionId ? sessions.get(sessionId) : null;
+export async function getUserData(): Promise<Credentials|null> {
+  const cred: Credentials|null = await getData('accessTokenData');
+  if (!cred) {
+    return null;
+  }
+
+  const now = new Date();
+
+  const {token_expire, refresh_token_expire, refresh_token} = cred;
+  const tokenExpireDate = new Date(Math.floor(token_expire * 1000));
+  if (now.getTime() < tokenExpireDate.getTime()) {
+    return cred;
+  }
+
+  const refreshTokenExpireDate = new Date(Math.floor(refresh_token_expire * 1000));
+  if (refreshTokenExpireDate.getTime() < now.getTime()) {
+    return null;
+  }
+
+  try {
+    const newCred = await refreshToken(refresh_token);
+    await storeCredentials(newCred);
+
+    return newCred;
+  } catch (e) {
+    return null;
+  }
 }
 
