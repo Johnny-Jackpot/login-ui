@@ -21,12 +21,12 @@ export default function useFieldInput(
 
   const onInput = debounce((event: FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    const parsedEmail = ValidationSchema.safeParse({
+    const parsedValue = ValidationSchema.safeParse({
       input: target.value
     });
     setVal(target.value);
-    setErrors(parsedEmail.success ? [] : parsedEmail.error.flatten().fieldErrors.input);
-    afterOnInputCb && afterOnInputCb(parsedEmail);
+    setErrors(parsedValue.success ? [] : parsedValue.error.flatten().fieldErrors.input);
+    afterOnInputCb && afterOnInputCb(parsedValue);
   }, 500);
 
   return [val, errors, setErrors, onInput];
