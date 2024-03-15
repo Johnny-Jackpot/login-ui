@@ -6,11 +6,21 @@ export const metadata: Metadata = {
   title: 'Create new password',
 };
 
-export default function Page() {
+export default function Page({
+  params: {
+    token,
+    secret
+  }
+}: {
+  params: {
+    token: string;
+    secret: string;
+  }
+}) {
   return (
     <>
       <PageTitle>Create new Password?</PageTitle>
-      <CreateNewPasswordForm />
+      <CreateNewPasswordForm token={token} secret={secret} />
     </>
   );
 }

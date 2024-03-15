@@ -20,3 +20,7 @@ export type Credentials = {
   token_expire: number;
   refresh_token_expire: number;
 }
+
+export interface keyable {
+  [key: string]: any
+}
