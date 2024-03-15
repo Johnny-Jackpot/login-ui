@@ -25,7 +25,8 @@ export default function useFieldInput(
       input: target.value
     });
     setVal(target.value);
-    setErrors(parsedValue.success ? [] : parsedValue.error.flatten().fieldErrors.input);
+    const errors: string[] = parsedValue.success ? [] : parsedValue.error.flatten().fieldErrors?.input || [];
+    setErrors(errors);
     afterOnInputCb && afterOnInputCb(parsedValue);
   }, 500);
 
