@@ -1,7 +1,6 @@
 import axios from "axios";
 import {getMockAccessTokenData, needUseMock} from "@/app/lib/mock";
-
-const baseUrl = 'https://auth-qa.qencode.com/v1/';
+import {baseUrl} from "@/constants";
 
 export async function login(email: string, password: string) {
   'use server';
@@ -23,10 +22,6 @@ export async function refreshToken(token: string) {
 
   const {data} = await axios.post(`${baseUrl}auth/refresh-token`, {refresh_token: token,});
   return data;
-}
-
-export async function resetPassword(email: string) {
-  return axios.post(`${baseUrl}auth/password-reset`, {email});
 }
 
 export async function setNewPassword(token: string, secret: string, password: string, passwordConfirm: string) {
