@@ -1,27 +1,23 @@
-'use client';
-
-import PasswordInput from "@/app/ui/inputs/password-input";
-import Button from "@/app/ui/button";
-import Label from "@/app/ui/inputs/label";
-import {ForgotPasswordSchema} from "@/app/lib/validation";
 import {useCallback, useEffect, useState} from "react";
-import GeneralError from "@/app/ui/inputs/general-error";
 import {useAxios} from "@/app/hooks/useAxios";
 import {baseUrl} from "@/constants";
+import {ForgotPasswordSchema} from "@/app/lib/validation";
 
-export default function CreateNewPasswordForm({token, secret}: { token: string, secret: string }) {
+export default function useCreatePasswordForm(token: string, secret: string) {
   const initialState: {
     password: string[],
     confirmPassword: string[],
     formErrors: string[],
   } = {password: [], confirmPassword: [], formErrors: []};
   const [errors, setErrors] = useState(initialState);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 
   const {errors: apiErrors, pending, sendRequest} = useAxios({
     url: `${baseUrl}auth/password-set`,
-    mockResponseData: {data: {error: 0}}
+    mockResponseData: {data: {timestamp: (new Date().getTime())}}
   });
 
+  //update ui with api errors
   useEffect(() => {
     setErrors({
       password: apiErrors?.errors?.password || [],
@@ -31,6 +27,8 @@ export default function CreateNewPasswordForm({token, secret}: { token: string, 
   }, [apiErrors]);
 
   const formAction = useCallback(async (formData: FormData) => {
+    setShowSuccessNotification(false);
+
     const parsedValues = ForgotPasswordSchema.safeParse({
       password: formData.get('password'),
       confirmPassword: formData.get('confirm-password'),
@@ -51,31 +49,9 @@ export default function CreateNewPasswordForm({token, secret}: { token: string, 
     const {data: {password, confirmPassword}} = parsedValues;
     const responseData = await sendRequest({token, secret, password, password_confirm: confirmPassword});
     if (responseData?.timestamp) {
-       //todo handle this case
+      setShowSuccessNotification(true);
     }
   }, [token, secret]);
 
-  return (
-    <form action={formAction}>
-      {errors?.formErrors?.map((e) => <GeneralError key={e}>{e}</GeneralError>)}
-      <Label htmlFor="password">Password</Label>
-      <PasswordInput
-        id='password'
-        name='password'
-        wrapperClassName='mb-[25px]'
-        placeholder='password'
-        errors={errors.password}
-      />
-      <Label htmlFor="confirm-password">Confirm Password</Label>
-      <PasswordInput
-        id='confirm-password'
-        name='confirm-password'
-        wrapperClassName='mb-[30px]'
-        placeholder='password'
-        errors={errors.confirmPassword}
-      />
-      <Button type='submit' disabled={pending}>Reset Password</Button>
-
-    </form>
-  );
+  return {errors, pending, formAction, showSuccessNotification};
 }
